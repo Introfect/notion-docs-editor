@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import EditorJS from "@editorjs/editorjs";
 import CustomTextTool from "./CustomTextTool";
+import CustomImageTool from "./CustomImageTool";
+import CustomCodeBlockTool from "./CustomCodeBlockTool";
 const CustomEditor = () => {
   const editorInstance = useRef<EditorJS | null>(null);
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -18,6 +20,8 @@ const CustomEditor = () => {
         placeholder: "Type here to write your post...",
         tools: {
           text: CustomTextTool,
+          image: CustomImageTool,
+          code: CustomCodeBlockTool,
         },
       });
     }
