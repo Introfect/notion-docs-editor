@@ -1,4 +1,3 @@
-// components/CustomCodeBlockTool.ts
 class CustomCodeBlockTool {
   static get toolbox() {
     return {
