@@ -14,7 +14,6 @@ class CustomTextTool {
       "custom-text-tool-input",
       "w-full",
       "p-2",
-      "border",
       "rounded",
       "w-full",
       "resize-none",

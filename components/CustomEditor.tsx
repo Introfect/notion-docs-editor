@@ -4,6 +4,9 @@ import EditorJS from "@editorjs/editorjs";
 import CustomTextTool from "./CustomTextTool";
 import CustomImageTool from "./CustomImageTool";
 import CustomCodeBlockTool from "./CustomCodeBlockTool";
+import CustomHeaderTool from "./CustomHeader";
+import TextareaAutosize from "react-textarea-autosize";
+
 const CustomEditor = () => {
   const editorInstance = useRef<EditorJS | null>(null);
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -19,10 +22,12 @@ const CustomEditor = () => {
         },
         placeholder: "Type here to write your post...",
         tools: {
+          header: CustomHeaderTool,
           text: CustomTextTool,
           image: CustomImageTool,
           code: CustomCodeBlockTool,
         },
+        defaultBlock: "text",
       });
     }
   }, []);
@@ -48,27 +53,29 @@ const CustomEditor = () => {
     }
   }, [isMounted, initializeEditor]);
 
-  const handleSave = async () => {
-    const savedData = await editorInstance.current?.save();
-    console.log(savedData);
-  };
-
   if (!isMounted) {
     return null;
   }
 
   return (
     <div className="w-full h-screen p-4 bg-zinc-50 rounded-lg border border-zinc-200">
-      <form id="subreddit-post-form" className="w-fit">
+      <form className="w-fit">
         <div className="prose prose-stone">
+          <TextareaAutosize
+            placeholder="Untitled.."
+            className="p-2
+            rounded
+            w-full
+            resize-none
+            appearance-none
+            overflow-hidden
+            bg-transparent
+            text-5xl
+            focus:outline-none
+            text-black
+            autoFocus "
+          />
           <div id="editorjs" />
-          <p className="text-sm text-gray-500">
-            Use{" "}
-            <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">
-              Tab
-            </kbd>{" "}
-            to open the command menu.
-          </p>
         </div>
       </form>
     </div>
