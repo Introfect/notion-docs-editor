@@ -1,4 +1,3 @@
-// components/CustomImageTool.ts
 class CustomImageTool {
   static get toolbox() {
     return {
