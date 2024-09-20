@@ -1,11 +1,9 @@
-"use client";
-
-import EditorInitialiser from "@/components/EditorInitialiser";
+import CustomEditor from "@/components/CustomEditor";
 
 export default function Home() {
   return (
-    <div className="bg-white h-screen w-full text-black">
-      <EditorInitialiser />
+    <div className="mx-auto">
+      <CustomEditor />
     </div>
   );
 }
