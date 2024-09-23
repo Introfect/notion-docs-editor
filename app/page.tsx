@@ -2,7 +2,7 @@ import CustomEditor from "@/components/CustomEditor";
 
 export default function Home() {
   return (
-    <div className="mx-auto">
+    <div className=" container mx-auto h-screen overscroll-y-auto">
       <CustomEditor />
     </div>
   );

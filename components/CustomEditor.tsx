@@ -9,28 +9,43 @@ import TextareaAutosize from "react-textarea-autosize";
 
 const CustomEditor = () => {
   const editorInstance = useRef<EditorJS | null>(null);
+  const [isEditorReady, setIsEditorReady] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   const initializeEditor = useCallback(async () => {
-    const EditorJS = (await import("@editorjs/editorjs")).default;
-
     if (!editorInstance.current) {
+      const EditorJS = (await import("@editorjs/editorjs")).default;
       const editor = new EditorJS({
         holder: "editorjs",
+        autofocus: true,
         onReady() {
           editorInstance.current = editor;
         },
-        placeholder: "Type here to write your post...",
+        placeholder: "Type here to write here and press / for commands",
         tools: {
-          header: CustomHeaderTool,
           text: CustomTextTool,
+          header: CustomHeaderTool,
           image: CustomImageTool,
           code: CustomCodeBlockTool,
         },
         defaultBlock: "text",
       });
+
+      setIsEditorReady(true);
     }
   }, []);
+
+  const handleKeyDown = async (
+    event: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (!isEditorReady) {
+        await initializeEditor();
+      }
+      document.getElementById("editorjs")?.focus();
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -39,26 +54,20 @@ const CustomEditor = () => {
   }, []);
 
   useEffect(() => {
-    const init = async () => {
-      await initializeEditor();
-    };
-
-    if (isMounted) {
-      init();
-
-      return () => {
-        editorInstance.current?.destroy();
+    return () => {
+      if (editorInstance.current) {
+        editorInstance.current.destroy();
         editorInstance.current = null;
-      };
-    }
-  }, [isMounted, initializeEditor]);
+      }
+    };
+  }, []);
 
   if (!isMounted) {
     return null;
   }
 
   return (
-    <div className="w-full h-screen p-4 bg-zinc-50 rounded-lg border border-zinc-200">
+    <div className="w-full h-screen overscroll-y-auto p-4">
       <form className="w-fit">
         <div className="prose prose-stone">
           <TextareaAutosize
@@ -71,10 +80,13 @@ const CustomEditor = () => {
             overflow-hidden
             bg-transparent
             text-5xl
+            font-bold
             focus:outline-none
-            text-black
-            autoFocus "
+            text-slate-800
+            autoFocus"
+            onKeyDown={handleKeyDown}
           />
+
           <div id="editorjs" />
         </div>
       </form>

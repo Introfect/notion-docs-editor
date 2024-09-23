@@ -9,11 +9,8 @@ class CustomHeaderTool {
 
   render() {
     const input = document.createElement("textarea");
-    input.placeholder = "Untitled";
-    input.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-      }
-    });
+    input.placeholder = "Header 2";
+
     input.classList.add(
       "custom-text-tool-input",
       "w-full",

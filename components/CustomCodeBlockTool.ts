@@ -7,24 +7,31 @@ class CustomCodeBlockTool {
   }
 
   render() {
-    const wrapper = document.createElement("pre");
-    const textarea = document.createElement("code");
-    textarea.classList.add(
-      "custom-code-block",
+    const wrapper = document.createElement("textarea");
+    const code = document.createElement("code");
+    wrapper.classList.add(
       "w-full",
       "p-2",
-      "border",
       "rounded",
-      "font-mono"
+      "text-sm",
+      "font-mono",
+      "focus:outline-none",
+      "text-black",
+      "resize-none",
+      "h-32"
     );
-
-    wrapper.appendChild(textarea);
+    wrapper.appendChild(code);
     return wrapper;
   }
 
   save(blockContent: HTMLTextAreaElement) {
     return {
       code: blockContent.value,
+    };
+  }
+  static get sanitize() {
+    return {
+      code: true,
     };
   }
 }
